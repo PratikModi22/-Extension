@@ -1,5 +1,5 @@
 #LinkedIn Profile Optimizer - Chrome Extension
-This Chrome extension helps you analyze and improve your LinkedIn profile by scraping your profile data and suggesting improvements using an external API.
+#This Chrome extension helps you analyze and improve your LinkedIn profile by scraping your profile data and suggesting improvements using an external API.
 
 #📌 Installation & Setup
 Step 1: Download or Clone the Repository
