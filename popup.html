@@ -5,13 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LinkedIn Optimizer</title>
     <style>
-        body { font-family: Arial, sans-serif; width: 300px; padding: 15px; }
-        button { background: #0073b1; color: white; border: none; padding: 10px; width: 100%; margin-top: 10px; }
-        input { width: 100%; padding: 8px; margin-bottom: 10px; }
+        body { 
+            font-family: Arial, sans-serif; 
+            width: 320px; 
+            padding: 15px; 
+            text-align: center;
+        }
+        h3 { 
+            color: #0073b1; 
+            margin-bottom: 10px; 
+        }
+        input { 
+            width: 100%; 
+            padding: 8px; 
+            margin-bottom: 10px; 
+            border: 1px solid #ccc; 
+            border-radius: 4px;
+        }
+        button { 
+            background: #0073b1; 
+            color: white; 
+            border: none; 
+            padding: 10px; 
+            width: 100%; 
+            margin-top: 10px; 
+            cursor: pointer; 
+            border-radius: 4px;
+        }
+        button:hover { 
+            background: #005582; 
+        }
+        #results {
+            margin-top: 15px;
+            text-align: left;
+            font-size: 14px;
+        }
+        ul {
+            padding-left: 15px;
+        }
+        p { 
+            margin: 5px 0; 
+        }
     </style>
 </head>
 <body>
-    <h3>LinkedIn Profile Optimizer</h3>
+    <h3>🔍 LinkedIn Profile Optimizer</h3>
     <input type="text" id="profile-url" placeholder="Enter LinkedIn profile URL">
     <button id="analyze">Analyze Profile</button>
     <div id="results"></div>
