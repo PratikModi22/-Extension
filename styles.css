@@ -1,12 +1,64 @@
-#popup-container {
-    font-family: Arial, sans-serif;
-    padding: 10px;
-  }
-  button {
-    margin-top: 10px;
-  }
-  #recommendations {
-    margin-top: 20px;
-    border: 1px solid #ccc;
-    padding: 10px;
-  }
+/* General Styles */
+#popup-container { 
+  font-family: Arial, sans-serif;
+  padding: 15px;
+  width: 320px;
+  text-align: center;
+}
+
+/* Heading */
+h3 {
+  color: #0073b1;
+  margin-bottom: 10px;
+}
+
+/* Input Field */
+input { 
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Analyze Button */
+button {
+  background: #0073b1;
+  color: white;
+  border: none;
+  padding: 10px;
+  width: 100%;
+  margin-top: 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background: #005582;
+}
+
+/* Results Section */
+#results {
+  margin-top: 15px;
+  text-align: left;
+  font-size: 14px;
+}
+
+/* Recommendations Box */
+#recommendations {
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  background: #f9f9f9;
+  border-radius: 5px;
+}
+
+/* List Styling */
+ul {
+  padding-left: 15px;
+}
+
+p {
+  margin: 5px 0;
+}

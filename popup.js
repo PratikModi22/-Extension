@@ -10,46 +10,41 @@ document.getElementById("analyze").addEventListener("click", async () => {
   resultsDiv.innerHTML = "<p>Analyzing profile... Please wait.</p>";
 
   try {
-      // 🔹 Step 1: Scrape LinkedIn profile using ScraperAPI (Free)
-      const scraperApiKey = "4d2e281a7e0a76747da2b5f63b0d7ae3"; // Get a free key from scraperapi.com
-      const scrapeUrl = `https://api.scraperapi.com?api_key=${scraperApiKey}&url=${encodeURIComponent(profileUrl)}`;
-
-      const scrapeResponse = await fetch(scrapeUrl);
-      const scrapedHtml = await scrapeResponse.text();
-      
-      // Extract relevant information using a simple text search
-      const headlineMatch = scrapedHtml.match(/<title>(.*?)<\/title>/);
-      const headline = headlineMatch ? headlineMatch[1] : "Headline not found";
-
-      // 🔹 Step 2: Send scraped data to OpenAI API for recommendations
-      const openAiApiKey = "YOUR_OPENAI_API_KEY"; // Get from openai.com
-      const openAiResponse = await fetch("https://api.openai.com/v1/chat/completions", {
-          method: "POST",
-          headers: {
-              "Authorization": `Bearer ${openAiApiKey}`,
-              "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-              model: "gpt-4",
-              messages: [
-                  { role: "system", content: "You are a LinkedIn profile optimization expert." },
-                  { role: "user", content: `Analyze this LinkedIn profile and suggest improvements:\n\nHeadline: ${headline}` }
-              ]
-          })
+      // 🔹 Step 1: Request background script to scrape LinkedIn profile
+      const scrapeResponse = await new Promise((resolve) => {
+          chrome.runtime.sendMessage({ type: "scrapeProfile", url: profileUrl }, resolve);
       });
 
-      const aiData = await openAiResponse.json();
-      const suggestions = aiData.choices[0].message.content;
+      if (!scrapeResponse?.success) {
+          throw new Error(scrapeResponse?.error || "Failed to scrape LinkedIn profile.");
+      }
 
-      // 🔹 Step 3: Display results
+      const profileData = scrapeResponse.data;
+      console.log("✅ Scraped LinkedIn Profile Data:", profileData);
+
+      // 🔹 Step 2: Send scraped data to background script for AI analysis
+      const aiResponse = await new Promise((resolve) => {
+          chrome.runtime.sendMessage({ type: "analyzeProfile", profileData }, resolve);
+      });
+
+      if (!aiResponse?.success) {
+          throw new Error(aiResponse?.error || "AI analysis failed.");
+      }
+
+      const { headline, summary, skills, suggestions } = aiResponse.data;
+
+      // 🔹 Step 3: Display results dynamically
       resultsDiv.innerHTML = `
           <h4>Profile Analysis</h4>
-          <p><strong>Headline:</strong> ${headline}</p>
+          <p><strong>Headline:</strong> ${headline || "N/A"}</p>
+          <p><strong>Summary:</strong> ${summary || "N/A"}</p>
+          <p><strong>Skills:</strong> ${skills?.length ? skills.join(", ") : "N/A"}</p>
           <h4>Suggested Improvements</h4>
-          <p>${suggestions.replace(/\n/g, "<br>")}</p>
+          <ul>${suggestions.map((s) => `<li>${s}</li>`).join("")}</ul>
       `;
+
   } catch (error) {
-      console.error("Error:", error);
-      resultsDiv.innerHTML = "<p style='color: red;'>Error fetching profile data. Try again later.</p>";
+      console.error("❌ Error:", error);
+      resultsDiv.innerHTML = `<p style='color: red;'>Error: ${error.message}</p>`;
   }
 });
