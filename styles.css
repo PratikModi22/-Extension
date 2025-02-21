@@ -1,0 +1,12 @@
+#popup-container {
+    font-family: Arial, sans-serif;
+    padding: 10px;
+  }
+  button {
+    margin-top: 10px;
+  }
+  #recommendations {
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
